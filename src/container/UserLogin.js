@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 
 function UserLogin(props) {
+    const fNameRef = useRef();
+    const lNameRef = useRef();
+    const uNameRef = useRef();
+    const mailRef = useRef();
+    const passRef = useRef();
+
+    const getVal = () =>{
+        alert(`DATA FATCHED: Your name is ${fNameRef.current.value} ${lNameRef.current.value} and ${uNameRef.current.value} is  your username and mail id is ${mailRef.current.value}` );
+    } 
     const [userType, setUserType] = useState('login')
     return (
         <>
-
             <section className="signin-page account">
                 <div className="container">
                     <div className="row">
@@ -18,7 +26,7 @@ function UserLogin(props) {
                                 {userType === 'f_pwd' ? <h2 className="text-center">reset password</h2> :
                                     userType === 'login' ? <h2 className="text-center">Welcome Back</h2> : <h2 className="text-center">Welcome</h2>
                                 }
-                                <form className="text-left clearfix" action="../index.html">
+                                <div className="text-left clearfix" action="/">
                                     {
                                         userType === 'f_pwd' ?
                                             <>
@@ -34,7 +42,7 @@ function UserLogin(props) {
                                                 </div>
                                                 :
                                                 <div className="form-group">
-                                                    <input type="text" className="form-control" placeholder="First name" />
+                                                    <input type="text" className="form-control" placeholder="First name" ref={fNameRef}/>
                                                 </div>
                                     }
 
@@ -49,7 +57,7 @@ function UserLogin(props) {
                                                 </div>
                                                 :
                                                 <div className="form-group">
-                                                    <input type="text" className="form-control" placeholder="Last name" />
+                                                    <input type="text" className="form-control" placeholder="Last name" ref={lNameRef}/>
                                                 </div>
                                     }
 
@@ -59,13 +67,13 @@ function UserLogin(props) {
                                         :
                                         <>
                                             <div className="form-group">
-                                                <input type="text" className="form-control" placeholder="Username" />
+                                                <input type="text" className="form-control" placeholder="Username" ref={uNameRef}/>
                                             </div>
                                             <div className="form-group">
-                                                <input type="text" className="form-control" placeholder="Email" />
+                                                <input type="text" className="form-control" placeholder="Email" ref={mailRef} />
                                             </div>
                                             <div className="form-group">
-                                                <input type="text" className="form-control" placeholder="Set password" />
+                                                <input type="text" className="form-control" placeholder="Set password" ref={passRef} />
                                             </div>
                                         </>
                                     }
@@ -76,10 +84,10 @@ function UserLogin(props) {
                                                 <button type="submit" className="btn btn-main text-center">Request password reset</button>
                                                 :
                                                 userType === 'login' ? <button type="submit" className="btn btn-main text-center">Login</button> :
-                                                    <button type="submit" className="btn btn-main text-center">sign up</button>
+                                                    <button type="submit" className="btn btn-main text-center" onClick={getVal}>sign up</button>
                                         }
                                     </div>
-                                </form>
+                                </div>
                                 {
                                     userType === 'f_pwd' ?
                                         <a onClick={() => setUserType('login')} className='mt-20' >Back to log in</a>
