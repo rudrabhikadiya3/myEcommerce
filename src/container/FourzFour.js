@@ -8,9 +8,9 @@ function FourzFour(props) {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                        <Link to='/'>Home</Link>
+                            <Link to='/'>
                                 <img src="source/images/logo.png" alt="site logo" />
-                                
+                            </Link>
                             <h1>404</h1>
                             <h2>Page Not Found</h2>
                             <Link to="/" className="btn btn-main"><i className="tf-ion-android-arrow-back" /> Go Home</Link>

@@ -2379,3 +2379,9 @@ input[type=email]:focus, input[type=password]:focus, input[type=text]:focus, inp
 a:hover{
   cursor: pointer;
 }
+.form-error{
+  margin: 0 !important;  
+  padding: 0;
+  font-size: 12px;
+  color: red;
+}
