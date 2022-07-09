@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { Formik, useFormik, Form } from "formik";
-// import { } from 'formik'
 
 function UserLogin(props) {
   const [userType, setUserType] = useState("login");

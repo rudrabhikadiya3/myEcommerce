@@ -1,36 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik, Form, Formik } from "formik";
 
 function Checkout(props) {
+  const [data, setData] =  useState()
   let schema = yup.object().shape({
     name: yup.string().required("Plese enter name"),
-    address: yup.string().required("Plese enter address").min(20, 'please enter detailed adress'),
-    zip: yup.string()
-    .length(6)
-    .matches(/^[0-9]{6}/)
-    .required()
-    .label('zip code'),
+    address: yup
+      .string()
+      .required("Plese enter address")
+      .min(20, "please enter detailed adress"),
+    zip: yup
+      .string()
+      .length(6)
+      .matches(/^[0-9]{6}/)
+      .required()
+      .label("zip code"),
     city: yup.string().required("Plese enter city"),
     country: yup.string().required("Plese enter country"),
-    
   });
   const formik = useFormik({
     validationSchema: schema,
     initialValues: {
       name: "",
-      address:'',
-      zip:'',
-      city: '',
-      country: '',
+      address: "",
+      zip: "",
+      city: "",
+      country: "",
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      toLocalStorage(values);
+      loadData();
+      // alert(JSON.stringify(values, null, 2));
     },
   });
 
   const { handleSubmit, handleBlur, handleChange, errors, touched } = formik;
+
+  const toLocalStorage = (values) => {
+    let localdata = JSON.parse(localStorage.getItem("adrs"));
+
+    let id = Math.floor(Math.random() * 1000);
+    const data = {
+      id: id,
+      ...values,
+    };
+
+    if (localdata === null) {
+      localStorage.setItem("adrs", JSON.stringify([data]));
+    } else {
+      localdata.push(data);
+      localStorage.setItem("adrs", JSON.stringify(localdata));
+    }
+  };
+
+  const loadData = () =>{
+    let localdata = JSON.parse(localStorage.getItem("adrs"));
+
+    if(localdata !== null){
+      setData(localdata);
+    }
+  }
+  useEffect(() =>{
+    loadData();
+}, []);
+let inLocal = JSON.parse(localStorage.getItem("adrs"));
+
+console.log(inLocal);
+
 
   return (
     <div>
@@ -133,7 +171,8 @@ function Checkout(props) {
                     </Form>
                   </Formik>
                 </div>
-                <div className="block">
+                {/*=====>   payment-method   <=====*/}
+                <div className="block payment-method">
                   <h4 className="widget-title">Payment Method</h4>
                   <p>Credit Cart Details (Secure payment)</p>
                   <div className="checkout-product-details">
@@ -186,25 +225,53 @@ function Checkout(props) {
                     </div>
                   </div>
                 </div>
+                {/*=====> addresses <=====*/}
+                <div className="block ">
+                  <h4 className="widget-title">Saved Adresses</h4>
+                  <div className="row">
+                    {
+                      inLocal !== null ?
+                      inLocal.map((d,i) =>{
+                        return(
+                          <div className="col-sm-6" key={i}>
+                      <div className="card border mb-3">
+                        <div className="card-body">
+                          <h4 className="card-title">{d.name}</h4>
+                          <p className="card-text m-0">
+                            {d.address}  
+                          </p>
+                          <p className="card-text">
+                          {d.zip} {d.city} {d.country} 
+                          </p>
+                          <a href="#" className="btn-small">
+                            use
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                        )
+                      }) : <p className="col-sm-6">
+                      No saved address
+                      </p>
+                    }
+                  </div>
+                </div>
               </div>
               <div className="col-md-4">
                 <div className="product-checkout-details">
                   <div className="block">
                     <h4 className="widget-title">Order Summary</h4>
                     <div className="media product-card">
-                      {/* <a className="pull-left" href="product-single.html"> */}
                       <Link to="/product_single">
                         Product Details
                         <img
                           className="media-object"
                           src="source/images/shop/cart/cart-1.jpg"
-                          alt="Image"
+                          alt="cart1"
                         />
                       </Link>
-                      {/* </a> */}
                       <div className="media-body">
                         <h4 className="media-heading">
-                          {" "}
                           <Link to="/product_single">
                             Product DetailsAmbassador Heritage 1921
                           </Link>
@@ -215,7 +282,7 @@ function Checkout(props) {
                     </div>
                     <div className="discount-code">
                       <p>
-                        Have a discount ?{" "}
+                        Have a discount ?
                         <a
                           data-toggle="modal"
                           data-target="#coupon-modal"
@@ -240,7 +307,10 @@ function Checkout(props) {
                       <span>$250</span>
                     </div>
                     <div className="verified-icon">
-                      <img src="source/images/shop/verified.png" />
+                      <img
+                        src="source/images/shop/verified.png"
+                        alt="verified"
+                      />
                     </div>
                   </div>
                 </div>
