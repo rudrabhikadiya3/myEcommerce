@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick/lib/slider';
 
 function Home(props) {
@@ -21,7 +22,7 @@ function Home(props) {
               <div className="col-lg-8 text-center">
                 <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">PRODUCTS</p>
                 <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">The beauty of nature <br /> is hidden in details.</h1>
-                <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" className="btn" href="theme/shop.html">Shop Now</a>
+                <Link data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" className="btn" to='/shop'>Shop Now</Link>
               </div>
             </div>
           </div>

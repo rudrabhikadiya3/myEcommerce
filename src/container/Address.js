@@ -45,8 +45,10 @@ function Address(props) {
                       </thead>
                       <tbody>
                         
-                        {localdata.map((d, i) => {
-                          if (localdata !== null) {
+                        {
+                          localdata !== null ?
+                          localdata.map((d, i) => {
+                          
                             return (
                               <tr key={i}>
                                 <td>{d.name}</td>
@@ -78,8 +80,13 @@ function Address(props) {
                                 </td>
                               </tr>
                             );
-                          }
-                        })}
+                          
+                        })
+                          : <tr>
+                            <td>No resent addresses</td>
+                          </tr>
+                        
+                        }
                         
                         
                       </tbody>
