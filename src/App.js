@@ -30,6 +30,8 @@ import UserLogin from './container/UserLogin';
 import Blog from './container/Blog';
 import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
+import PublicRoute from './container/routes/PublicRoute';
+import PrivateRoute from './container/routes/PrivateRoute';
 
 
 function App() {
@@ -38,35 +40,34 @@ function App() {
       <Header />
       <Switch>
         {/* home */}
-        <Route path='/' exact component={Home} />
-
+        <PublicRoute path='/' exact component={Home} />
         {/* shop */}
-        <Route path='/shop' exact component={Shop} />
-        <Route path='/checkout' exact component={Checkout} />
-        <Route path='/cart' exact component={Cart} />
-        <Route path='/pricing' exact component={Pricing} />
-        <Route path='/confirmation' exact component={Confirmation} />
+        <PublicRoute path='/shop' exact component={Shop} />
+        <PrivateRoute path='/checkout' exact component={Checkout} />
+        <PrivateRoute path='/cart' exact component={Cart} />
+        <PublicRoute path='/pricing' exact component={Pricing} />
+        <PublicRoute path='/confirmation' exact component={Confirmation} />
         {/* -------- */}
-        <Route path='/product_single' exact component={ProductSingle} />
-        <Route path='/ShopSide' exact component={ShopSide} />
+        <PublicRoute path='/product_single' exact component={ProductSingle} />
+        <PublicRoute path='/ShopSide' exact component={ShopSide} />
 
         {/* pages */}
-        <Route path='/contact' exact component={Contact} />
-        <Route path='/about' exact component={About} />
-        <Route path='/404' exact component={FourzFour} />
-        <Route path='/FAQ' exact component={FAQ} />
+        <PublicRoute path='/contact' exact component={Contact} />
+        <PublicRoute path='/about' exact component={About} />
+        <PublicRoute path='/404' exact component={FourzFour} />
+        <PublicRoute path='/FAQ' exact component={FAQ} />
         {/* -------- */}
-        <Route path='/dashboard' exact component={Dashboard} />
-        <Route path='/order' exact component={Order} />
-        <Route path='/address' exact component={Address} />
-        <Route path='/profile' exact component={Profile} />
+        <PrivateRoute path='/dashboard' exact component={Dashboard} />
+        <PrivateRoute path='/order' exact component={Order} />
+        <PrivateRoute path='/address' exact component={Address} />
+        <PrivateRoute path='/profile' exact component={Profile} />
 
-        <Route path='/login' exact component={UserLogin} />
-
-
+        <PublicRoute path='/login' restricted={true} exact component={UserLogin} />
 
 
-        <Route path='/blog' exact component={Blog} />
+
+
+        <PublicRoute path='/blog' exact component={Blog} />
 
 
       </Switch>

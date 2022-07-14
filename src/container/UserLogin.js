@@ -54,7 +54,8 @@ function UserLogin(props) {
     initialValues: initVal,
     validationSchema: schema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
+      localStorage.setItem('user' , 'user');
     },
   });
   const { handleChange, errors, handleSubmit, handleBlur, touched } = formikObj;
