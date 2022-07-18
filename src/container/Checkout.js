@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { useFormik, Form, Formik } from "formik";
 
 function Checkout(props) {
-  const [data, setData] =  useState()
+  const [data, setData] = useState();
   let schema = yup.object().shape({
     name: yup.string().required("Plese enter name"),
     address: yup
@@ -36,7 +36,8 @@ function Checkout(props) {
     },
   });
 
-  const { handleSubmit, handleBlur, handleChange, errors, touched } = formik;
+  const { handleSubmit, handleBlur, handleChange, errors, touched, values } =
+    formik;
 
   const toLocalStorage = (values) => {
     let localdata = JSON.parse(localStorage.getItem("adrs"));
@@ -55,21 +56,25 @@ function Checkout(props) {
     }
   };
 
-  const loadData = () =>{
+  const loadData = () => {
     let localdata = JSON.parse(localStorage.getItem("adrs"));
 
-    if(localdata !== null){
+    if (localdata !== null) {
       setData(localdata);
     }
-  }
-  useEffect(() =>{
+  };
+
+  let inLocal = JSON.parse(localStorage.getItem("adrs"));
+
+  const setVal = (id) => {
+    let inLocal = JSON.parse(localStorage.getItem("adrs"));
+    let showData = inLocal.filter((d) => d.id === id);
+    formik.setValues(showData[0]);
+  };
+
+  useEffect(() => {
     loadData();
-}, []);
-let inLocal = JSON.parse(localStorage.getItem("adrs"));
-
-console.log(inLocal);
-
-
+  }, []);
   return (
     <div>
       <section className="page-header">
@@ -106,6 +111,7 @@ console.log(inLocal);
                           name="name"
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          value={values.name}
                         />
                         {errors.name && touched.name ? (
                           <span className="form-error">{errors.name}</span>
@@ -119,6 +125,7 @@ console.log(inLocal);
                           name="address"
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          value={values.address}
                         />
                         {touched.address && errors.address ? (
                           <span className="form-error">{errors.address}</span>
@@ -133,6 +140,7 @@ console.log(inLocal);
                             name="zip"
                             onChange={handleChange}
                             onBlur={handleBlur}
+                            value={values.zip}
                           />
                           {touched.zip && errors.zip ? (
                             <span className="form-error">{errors.zip}</span>
@@ -146,6 +154,7 @@ console.log(inLocal);
                             name="city"
                             onChange={handleChange}
                             onBlur={handleBlur}
+                            value={values.city}
                           />
                           {touched.city && errors.city ? (
                             <span className="form-error">{errors.city}</span>
@@ -160,6 +169,7 @@ console.log(inLocal);
                           name="country"
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          value={values.country}
                         />
                         {touched.country && errors.country ? (
                           <span className="form-error">{errors.country}</span>
@@ -229,31 +239,31 @@ console.log(inLocal);
                 <div className="block ">
                   <h4 className="widget-title">Saved Adresses</h4>
                   <div className="row">
-                    {
-                      inLocal !== null ?
-                      inLocal.map((d,i) =>{
-                        return(
+                    {inLocal !== null ? (
+                      inLocal.map((d, i) => {
+                        return (
                           <div className="col-sm-6" key={i}>
-                      <div className="card border mb-3">
-                        <div className="card-body">
-                          <h4 className="card-title">{d.name}</h4>
-                          <p className="card-text m-0">
-                            {d.address}  
-                          </p>
-                          <p className="card-text">
-                          {d.zip} {d.city} {d.country} 
-                          </p>
-                          <a href="#" className="btn-small">
-                            use
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                        )
-                      }) : <p className="col-sm-6">
-                      No saved address
-                      </p>
-                    }
+                            <div className="card border mb-3">
+                              <div className="card-body">
+                                <h4 className="card-title">{d.name}</h4>
+                                <p className="card-text m-0">{d.address}</p>
+                                <p className="card-text">
+                                  {d.zip} {d.city} {d.country}
+                                </p>
+                                <button
+                                  className="btn-small"
+                                  onClick={() => setVal(d.id)}
+                                >
+                                  use
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <p className="col-sm-6">No saved address</p>
+                    )}
                   </div>
                 </div>
               </div>
