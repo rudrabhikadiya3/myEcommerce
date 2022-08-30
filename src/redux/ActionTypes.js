@@ -1,1 +1,1 @@
-export const TEST_REDUX = "TEST_REDUX"
+export const SIGNUP_USER = "SIGNUP_USER"

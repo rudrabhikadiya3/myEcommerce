@@ -6,12 +6,6 @@ const initVal = {
 }
 export const authReducer  = (state = initVal, action) =>{
     switch (action.type) {
-        case ActionType.TEST_REDUX:
-            return{
-                ...state,
-                data : "BTN CLICKED"
-            }
-    
         default: return state;
     }
 }

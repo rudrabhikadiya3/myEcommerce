@@ -1,6 +1,6 @@
 import * as ActionType from '../ActionTypes'
 
 
-export const testAction = () => (dispatch) =>{
-    dispatch({type: ActionType.TEST_REDUX})
+export const signupAction = (values) => (dispatch) =>{
+    dispatch({type: ActionType.SIGNUP_USER, payload: values})
 }

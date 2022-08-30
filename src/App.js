@@ -34,11 +34,10 @@ import PublicRoute from './container/routes/PublicRoute';
 import PrivateRoute from './container/routes/PrivateRoute';
 import { Provider } from 'react-redux';
 
-import {configureStore} from './redux/store';
+import store from './redux/store';
 
 
 function App() {
-  let store = configureStore()
   return (
     <>
     <Provider store={store}>

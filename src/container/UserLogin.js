@@ -2,10 +2,12 @@ import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { Formik, useFormik, Form } from "formik";
+import { useDispatch } from "react-redux";
+import { signupAction } from "../redux/action/auth.action";
 
 function UserLogin(props) {
   const [userType, setUserType] = useState("login");
-
+  const dispatch = useDispatch()
   let schemaObj, initVal;
   if (userType === "login") {
     schemaObj = {
@@ -54,8 +56,9 @@ function UserLogin(props) {
     initialValues: initVal,
     validationSchema: schema,
     onSubmit: (values) => {
-      // alert(JSON.stringify(values, null, 2));
-      localStorage.setItem('user' , 'user');
+      if (userType === "signup") {
+        dispatch(signupAction(values))
+      } 
     },
   });
   const { handleChange, errors, handleSubmit, handleBlur, touched } = formikObj;
@@ -256,7 +259,7 @@ function UserLogin(props) {
                 ) : (
                   <p className="mt-20">
                     Already a user?
-                    <a onClick={() => setUserType("login")}> Login</a>
+                    <a onClick={() => setUserType("login")}> Login </a>
                   </p>
                 )}
               </div>
