@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { Formik, useFormik, Form } from "formik";
@@ -7,8 +7,9 @@ import { signupAction } from "../redux/action/auth.action";
 
 function UserLogin(props) {
   const [userType, setUserType] = useState("login");
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   let schemaObj, initVal;
+
   if (userType === "login") {
     schemaObj = {
       email: yup
@@ -24,8 +25,6 @@ function UserLogin(props) {
   } else if (userType === "signup") {
     schemaObj = {
       fname: yup.string().required("Please enter name"),
-      lname: yup.string().required("Please enter name"),
-      uname: yup.string().required("Please enter name"),
       email: yup
         .string()
         .email("Please enter valid email")
@@ -34,8 +33,6 @@ function UserLogin(props) {
     };
     initVal = {
       fname: "",
-      lname: "",
-      uname: "",
       email: "",
       spassword: "",
     };
@@ -55,10 +52,11 @@ function UserLogin(props) {
   const formikObj = useFormik({
     initialValues: initVal,
     validationSchema: schema,
-    onSubmit: (values) => {
+    onSubmit: (values, action) => {
       if (userType === "signup") {
-        dispatch(signupAction(values))
-      } 
+        dispatch(signupAction(values));
+      }
+      action.resetForm();
     },
   });
   const { handleChange, errors, handleSubmit, handleBlur, touched } = formikObj;
@@ -105,81 +103,51 @@ function UserLogin(props) {
                         </div>
                       </>
                     ) : userType === "login" ? (
-                      <div className="form-group">
-                        <input
-                          name="email"
-                          type="email"
-                          className="form-control"
-                          placeholder="Email"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                        {touched.email && errors.email ? (
-                          <span className="form-error">{errors.email}</span>
-                        ) : null}
-                      </div>
-                    ) : (
+                      <>
+                        <div className="form-group">
+                          <input
+                            name="email"
+                            type="email"
+                            className="form-control"
+                            placeholder="Email"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          {touched.email && errors.email ? (
+                            <span className="form-error">{errors.email}</span>
+                          ) : null}
+                        </div>
+                        <div className="form-group">
+                          <input
+                            name="password"
+                            type="password"
+                            className="form-control"
+                            placeholder="Password"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          {touched.password && errors.password ? (
+                            <span className="form-error">
+                              {errors.password}
+                            </span>
+                          ) : null}
+                        </div>
+                      </>
+                    ) : null}
+
+                    {userType === "signup" ? (
                       <>
                         <div className="form-group">
                           <input
                             type="text"
                             name="fname"
                             className="form-control"
-                            placeholder="First name"
+                            placeholder="Full name"
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
                           {touched.fname && errors.fname ? (
                             <span className="form-error">{errors.fname}</span>
-                          ) : null}
-                        </div>
-                      </>
-                    )}
-
-                    {userType === "f_pwd" ? null : userType === "login" ? (
-                      <div className="form-group">
-                        <input
-                          name="password"
-                          type="password"
-                          className="form-control"
-                          placeholder="Password"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                        {touched.password && errors.password ? (
-                          <span className="form-error">{errors.password}</span>
-                        ) : null}
-                      </div>
-                    ) : (
-                      <div className="form-group">
-                        <input
-                          name="lname"
-                          type="text"
-                          className="form-control"
-                          placeholder="Last name"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                        {touched.lname && errors.lname ? (
-                          <span className="form-error">{errors.lname}</span>
-                        ) : null}
-                      </div>
-                    )}
-
-                    {/* username | email | password */}
-                    {userType === "login" || userType === "f_pwd" ? null : (
-                      <>
-                        <div className="form-group">
-                          <input
-                            name="uname"
-                            type="text"
-                            className="form-control"
-                            placeholder="Username"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
-                          {touched.uname && errors.uname ? (
-                            <span className="form-error">{errors.uname}</span>
                           ) : null}
                         </div>
                         <div className="form-group">
@@ -211,7 +179,7 @@ function UserLogin(props) {
                           ) : null}
                         </div>
                       </>
-                    )}
+                    ) : null}
 
                     <div className="text-center">
                       {userType === "f_pwd" ? (
