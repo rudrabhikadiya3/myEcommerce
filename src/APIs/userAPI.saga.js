@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   sendEmailVerification,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -25,4 +26,22 @@ export const newUser = (val) => {
         reject(errorCode);
       });
   });
+};
+
+export const loginUser = (val) => {
+  return new Promise((resolve, reject)=>{
+    signInWithEmailAndPassword(auth, val.email, val.password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      if (user.emailVerified) {
+        resolve("Login succesfully");
+      } else {
+        reject("Please verify your email");
+      }
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      reject(errorCode);
+    });
+  })
 };
