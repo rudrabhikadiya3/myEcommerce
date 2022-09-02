@@ -3,6 +3,7 @@ import {
   onAuthStateChanged,
   sendEmailVerification,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -16,7 +17,7 @@ export const newUser = (val) => {
         onAuthStateChanged(auth, (user) => {
           if (user) {
             sendEmailVerification(auth.currentUser).then(() => {
-              resolve("Email varification sent");
+              resolve({payload : "Email varification sent"});
             });
           }
         });
@@ -34,9 +35,9 @@ export const loginUser = (val) => {
     .then((userCredential) => {
       const user = userCredential.user;
       if (user.emailVerified) {
-        resolve("Login succesfully");
+        resolve({payload : "Login succesfully"});
       } else {
-        reject("Please verify your email");
+        reject({payload : "Please verify your email"});
       }
     })
     .catch((error) => {
@@ -45,3 +46,14 @@ export const loginUser = (val) => {
     });
   })
 };
+
+export const logoutUser = () =>{
+  return new Promise((resolve, reject)=>{
+    signOut(auth).then(() => {
+      resolve({payload : "Logout Successfully!"})
+    }).catch((error) => {
+      const errorCode = error.code;
+      reject(errorCode)
+    });
+  })
+}

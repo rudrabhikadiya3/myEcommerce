@@ -34,13 +34,16 @@ import PublicRoute from './container/routes/PublicRoute';
 import PrivateRoute from './container/routes/PrivateRoute';
 import { Provider } from 'react-redux';
 
-import store from './redux/store';
+import store, { persistor } from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react'
+
 
 
 function App() {
   return (
     <>
     <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
         <Header />
         <Switch>
           {/* home */}
@@ -76,6 +79,7 @@ function App() {
 
         </Switch>
         <Footer />
+        </PersistGate>
       </Provider>
     </>
   );

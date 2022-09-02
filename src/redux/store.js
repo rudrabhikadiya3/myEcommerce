@@ -1,24 +1,26 @@
-import { applyMiddleware, createStore } from "redux"
-import thunk from "redux-thunk"
-import { rootReducer } from "./reducer/rootReducer"
-import createSagaMiddleware from 'redux-saga'
-import {rootSaga} from './saga/rootSaga'
+import { applyMiddleware, createStore } from "redux";
+import thunk from "redux-thunk";
+import { rootReducer } from "./reducer/rootReducer";
+import createSagaMiddleware from "redux-saga";
+import { rootSaga } from "./saga/rootSaga";
 
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-const sagaMiddleware = createSagaMiddleware()
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["auth"],
+};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const middlewares = [sagaMiddleware ,thunk]
+const sagaMiddleware = createSagaMiddleware();
 
-// export const configureStore = () =>{
-//     let store = createStore(rootReducer, applyMiddleware(...middlewares))
-//     return store;
-// }
+const middlewares = [sagaMiddleware, thunk];
 
-const store = createStore(
-    rootReducer,
-    applyMiddleware(...middlewares)
-  )
+const store = createStore(persistedReducer, applyMiddleware(...middlewares));
 
-sagaMiddleware.run(rootSaga)
+sagaMiddleware.run(rootSaga);
+export let persistor = persistStore(store);
 
-export default store
+export default store;

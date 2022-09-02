@@ -2398,3 +2398,15 @@ a:hover{
 .mb-3{
   margin-bottom: 1rem;
 }
+.login-btn{
+  background-color: transparent;
+  color: #000;
+  border: 1px solid #000;
+  font-weight: 400;
+}
+.login-btn:focus{
+  color: #000;
+}
+.login-btn:hover{
+  color: #fff;
+}

@@ -1,37 +1,50 @@
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import { loginUser, newUser } from '../../APIs/userAPI.saga';
+import { loginUser, logoutUser, newUser } from '../../APIs/userAPI.saga';
+import { loggedinAction, loggedoutAction } from '../action/auth.action';
 import * as ActionType from '../ActionTypes'
 
 
-function* signUpUser(action) {
+function* signUpSaga(action) {
    try {
       const user = yield call(newUser, action.payload);
-      console.log(user);
-      // yield put({type: "USER_FETCH_SUCCEEDED", user: user});
+      console.log("msg",user);
+      
+      
    } catch (e) {
-      // yield put({type: "USER_FETCH_FAILED", message: e.message});
-      console.log(e);
+      console.log("error", e);
    }
 }
-function* logInUser(action) {
+function* logInSaga(action) {
    try {
       const user = yield call(loginUser, action.payload);
-      console.log(user);
-      // yield put({type: "USER_FETCH_SUCCEEDED", user: user});
+      yield put(loggedinAction(user))
+      console.log("msg",user);
    } catch (e) {
-      // yield put({type: "USER_FETCH_FAILED", message: e.message});
-      console.log(e);
+      console.log("error", e);
+   }
+}
+
+function* logOutSaga() {
+   try {
+      const user = yield call(logoutUser);
+      yield put(loggedoutAction(user))
+      console.log("msg",user);
+   } catch (e) {
+      console.log("error", e);
    }
 }
 
 
 function* watchsignUp() {
-  yield takeEvery(ActionType.SIGNUP_USER, signUpUser);
+  yield takeEvery(ActionType.SIGNUP_USER, signUpSaga);
 }
 function* watchLogin() {
-  yield takeEvery(ActionType.LOGIN_USER, logInUser);
+  yield takeEvery(ActionType.LOGIN_USER, logInSaga);
+}
+function* watchLogout() {
+  yield takeEvery(ActionType.LOGOUT_USER, logOutSaga);
 }
 
 export function* watchAuth() {
-  yield all([watchsignUp(), watchLogin()]);
+  yield all([watchsignUp(), watchLogin(), watchLogout()]);
 }
