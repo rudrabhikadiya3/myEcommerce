@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { Formik, useFormik, Form } from "formik";
 import { useDispatch } from "react-redux";
-import { loginAction, signupAction } from "../redux/action/auth.action";
+import { GoogleSigninAction, loginAction, signupAction } from "../redux/action/auth.action";
 
 function UserLogin(props) {
   const [userType, setUserType] = useState("login");
@@ -55,13 +55,17 @@ function UserLogin(props) {
     onSubmit: (values, action) => {
       if (userType === "signup") {
         dispatch(signupAction(values));
-      } else if (userType === "login"){
+      } else if (userType === "login") {
         dispatch(loginAction(values));
       }
       action.resetForm();
     },
   });
   const { handleChange, errors, handleSubmit, handleBlur, touched } = formikObj;
+
+  const handleGoogleSignup = () =>{
+    dispatch(GoogleSigninAction())
+  }
 
   return (
     <>
@@ -232,6 +236,14 @@ function UserLogin(props) {
                     <a onClick={() => setUserType("login")}> Login </a>
                   </p>
                 )}
+                {userType !== "f_pwd" ? (
+                  <>
+                    <h6 className="my-4">-- OR --</h6>
+                    <button className="google_btn" onClick={handleGoogleSignup}>
+                      Continue with Google
+                    </button>
+                  </>
+                ) : null}
               </div>
             </div>
           </div>

@@ -16,3 +16,7 @@ export const loggedoutAction = () => (dispatch) =>{
 export const loginAction = (values) => (dispatch) =>{
     dispatch({type: ActionType.LOGIN_USER, payload: values})
 }
+
+export const GoogleSigninAction = () => (dispatch) =>{
+    dispatch({type: ActionType.GOOGLESIGNUP_USER})
+}

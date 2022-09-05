@@ -1,5 +1,5 @@
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import { loginUser, logoutUser, newUser } from '../../APIs/userAPI.saga';
+import { GoogleSignupUser, loginUser, logoutUser, newUser } from '../../APIs/userAPI.saga';
 import { loggedinAction, loggedoutAction } from '../action/auth.action';
 import * as ActionType from '../ActionTypes'
 
@@ -34,6 +34,16 @@ function* logOutSaga() {
    }
 }
 
+function* GoogleSignupSaga() {
+   try {
+      const user = yield call(GoogleSignupUser);
+      yield put(loggedinAction(user))
+      console.log("msg",user);
+   } catch (e) {
+      console.log("error", e);
+   }
+}
+
 
 function* watchsignUp() {
   yield takeEvery(ActionType.SIGNUP_USER, signUpSaga);
@@ -44,7 +54,10 @@ function* watchLogin() {
 function* watchLogout() {
   yield takeEvery(ActionType.LOGOUT_USER, logOutSaga);
 }
+function* watchGoogleSignup() {
+  yield takeEvery(ActionType.GOOGLESIGNUP_USER, GoogleSignupSaga);
+}
 
 export function* watchAuth() {
-  yield all([watchsignUp(), watchLogin(), watchLogout()]);
+  yield all([watchsignUp(), watchLogin(), watchLogout(), watchGoogleSignup()]);
 }
