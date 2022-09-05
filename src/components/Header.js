@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logoutAction } from "../redux/action/auth.action";
+import Notification from "./Notification";
 
 function Header(props) {
   const dispatch = useDispatch();
@@ -468,6 +469,7 @@ function Header(props) {
           </Button>
         </DialogActions>
       </Dialog>
+              <Notification/>
     </header>
   );
 }
