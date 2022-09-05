@@ -20,3 +20,7 @@ export const loginAction = (values) => (dispatch) =>{
 export const GoogleSigninAction = () => (dispatch) =>{
     dispatch({type: ActionType.GOOGLESIGNUP_USER})
 }
+
+export const resetPasswordAction = (email) => (dispatch) =>{
+    dispatch({type: ActionType.RESET_PASSWORD_USER, payload: email})
+}

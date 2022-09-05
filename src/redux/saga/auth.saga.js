@@ -1,5 +1,5 @@
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import { GoogleSignupUser, loginUser, logoutUser, newUser } from '../../APIs/userAPI.saga';
+import { GoogleSignupUser, loginUser, logoutUser, newUser, passwordResetEmailUser } from '../../APIs/userAPI.saga';
 import { loggedinAction, loggedoutAction } from '../action/auth.action';
 import * as ActionType from '../ActionTypes'
 
@@ -44,6 +44,15 @@ function* GoogleSignupSaga() {
    }
 }
 
+function* resetPasswordSaga(action) {
+   try {
+      const user = yield call(passwordResetEmailUser, action.payload);
+      console.log("msg",user);
+   } catch (e) {
+      console.log("error", e);
+   }
+}
+
 
 function* watchsignUp() {
   yield takeEvery(ActionType.SIGNUP_USER, signUpSaga);
@@ -57,7 +66,10 @@ function* watchLogout() {
 function* watchGoogleSignup() {
   yield takeEvery(ActionType.GOOGLESIGNUP_USER, GoogleSignupSaga);
 }
+function* watchresetPassword() {
+  yield takeEvery(ActionType.RESET_PASSWORD_USER, resetPasswordSaga);
+}
 
 export function* watchAuth() {
-  yield all([watchsignUp(), watchLogin(), watchLogout(), watchGoogleSignup()]);
+  yield all([watchsignUp(), watchLogin(), watchLogout(), watchGoogleSignup(), watchresetPassword()]);
 }

@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { Formik, useFormik, Form } from "formik";
 import { useDispatch } from "react-redux";
-import { GoogleSigninAction, loginAction, signupAction } from "../redux/action/auth.action";
+import {
+  GoogleSigninAction,
+  loginAction,
+  resetPasswordAction,
+  signupAction,
+} from "../redux/action/auth.action";
 
 function UserLogin(props) {
   const [userType, setUserType] = useState("login");
@@ -57,15 +62,17 @@ function UserLogin(props) {
         dispatch(signupAction(values));
       } else if (userType === "login") {
         dispatch(loginAction(values));
+      } else if (userType === "f_pwd") {
+        dispatch(resetPasswordAction(values.email));
       }
       action.resetForm();
     },
   });
   const { handleChange, errors, handleSubmit, handleBlur, touched } = formikObj;
 
-  const handleGoogleSignup = () =>{
-    dispatch(GoogleSigninAction())
-  }
+  const handleGoogleSignup = () => {
+    dispatch(GoogleSigninAction());
+  };
 
   return (
     <>
@@ -90,14 +97,12 @@ function UserLogin(props) {
                       <>
                         <p>
                           Please enter the email address for your account. A
-                          verification code will be sent to you. Once you have
-                          received the verification code, you will be able to
-                          choose a new password for your account.
+                          password reset sent to your email address (maybe in spam). Once
+                          recieved the link, click on the link and you will be able to choose a new
+                          password for your account.
                         </p>
-                        {touched.name && errors.name ? (
-                          <span className="form-error">{errors.name}</span>
-                        ) : null}
-                        <div className="form-group">
+
+                        <div className="form-group mb-0">
                           <input
                             name="email"
                             type="email"
@@ -107,6 +112,9 @@ function UserLogin(props) {
                             onBlur={handleBlur}
                           />
                         </div>
+                        {touched.email && errors.email ? (
+                          <span className="form-error ">{errors.email}</span>
+                        ) : null}
                       </>
                     ) : userType === "login" ? (
                       <>
@@ -191,9 +199,9 @@ function UserLogin(props) {
                       {userType === "f_pwd" ? (
                         <button
                           type="submit"
-                          className="btn btn-main text-center"
+                          className="btn btn-main text-center mt-4"
                         >
-                          Request password reset
+                          send  link
                         </button>
                       ) : userType === "login" ? (
                         <button
@@ -214,15 +222,15 @@ function UserLogin(props) {
                   </Form>
                 </Formik>
                 {userType === "f_pwd" ? (
-                  <a onClick={() => setUserType("login")} className="mt-20">
+                  <a onClick={() => setUserType("login")} >
                     Back to log in
                   </a>
                 ) : userType === "login" ? (
                   <>
                     <p className="mt-20">
-                      New in this site ?
+                      New in this site?
                       <a onClick={() => setUserType("signup")}>
-                        Create New Account
+                        &nbsp;Create New Account
                       </a>
                     </p>
 

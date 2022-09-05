@@ -3,6 +3,7 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -71,14 +72,30 @@ export const GoogleSignupUser = () => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
-        resolve({payload: 'You are successfully with Google'})
+        resolve({ payload: "You are successfully with Google" });
       })
       .catch((error) => {
         const errorCode = error.code;
-        reject({payload: errorCode})
+        reject({ payload: errorCode });
         const errorMessage = error.message;
         const email = error.customData.email;
         const credential = GoogleAuthProvider.credentialFromError(error);
+      });
+  });
+};
+
+export const passwordResetEmailUser = (email) => {
+  return new Promise((resolve, reject) => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        // Password reset email sent!
+        resolve({payload: "Password reset email sent!"})
+
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        reject(errorCode)
       });
   });
 };
