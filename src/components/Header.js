@@ -13,12 +13,8 @@ import { logoutAction } from "../redux/action/auth.action";
 import Notification from "./Notification";
 
 function Header(props) {
-  const dispatch = useDispatch();
-  const handleLogout = () => {
-    dispatch(logoutAction());
-    handleClose()
-  };
   const [open, setOpen] = useState(false);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -26,11 +22,19 @@ function Header(props) {
   const handleClose = () => {
     setOpen(false);
   };
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutAction());
+    handleClose();
+  };
+
+
   const auth = useSelector((state) => state.auth);
+  console.log(auth);
 
   return (
     <header>
-      {/* Start Top Header Bar */}
       <section className="top-header">
         <div className="container">
           <div className="row">
@@ -41,11 +45,8 @@ function Header(props) {
               </div>
             </div>
             <div className="col-md-4 col-xs-12 col-sm-4">
-              {/* Site Logo */}
               <div className="logo text-center">
-                {/* <a href="index.html"> */}
                 <Link to="/">
-                  {/* replace logo here */}
                   <svg
                     width="135px"
                     height="29px"
@@ -78,7 +79,6 @@ function Header(props) {
                     </g>
                   </svg>
                 </Link>
-                {/* </a> */}
               </div>
             </div>
             <div className="col-md-4 col-xs-12 col-sm-4">
@@ -170,8 +170,6 @@ function Header(props) {
                     </ul>
                   </div>
                 </li>
-                {/* / Cart */}
-                {/* Search */}
                 <li className="dropdown search dropdown-slide">
                   <a
                     href="#!"
@@ -193,8 +191,6 @@ function Header(props) {
                     </li>
                   </ul>
                 </li>
-                {/* / Search */}
-                {/* Languages */}
                 <li className="commonSelect">
                   <select className="form-control">
                     <option>EN</option>
@@ -207,26 +203,26 @@ function Header(props) {
                   <Link
                     to="/login"
                     className="btn btn-main btn-small ms-5 login-btn"
-                    onClick={handleLogout}
                   >
                     Log In
                   </Link>
                 ) : (
                   <button
                     className="btn btn-main btn-small ms-5 login-btn"
-                    // onClick={handleLogout}
                     onClick={handleClickOpen}
                   >
                     Log Out
                   </button>
                 )}
+                <Link
+                    to="/admin"
+                    className="btn btn-main btn-small ms-5 login-btn"
+                  >admin panel</Link>
               </ul>
             </div>
           </div>
         </div>
       </section>
-      {/* End Top Header Bar */}
-      {/* Main Menu Section */}
       <section className="menu">
         <nav className="navbar navigation">
           <div className="container">
@@ -246,17 +242,11 @@ function Header(props) {
                 <span className="icon-bar" />
               </button>
             </div>
-            {/* / .navbar-header */}
-            {/* Navbar Links */}
             <div id="navbar" className="navbar-collapse collapse text-center">
               <ul className="nav navbar-nav">
-                {/* Home */}
                 <li className="dropdown ">
-                  {/* <a href="index.html">Home</a> */}
                   <Link to="/">Home</Link>
                 </li>
-                {/* / Home */}
-                {/* Elements */}
                 <li className="dropdown dropdown-slide">
                   <a
                     href="#!"
@@ -272,29 +262,23 @@ function Header(props) {
                   </a>
                   <div className="dropdown-menu">
                     <div className="row">
-                      {/* Basic */}
                       <div className="col-lg-6 col-md-6 mb-sm-3">
                         <ul>
                           <li className="dropdown-header">Pages</li>
                           <li role="separator" className="divider" />
                           <li>
-                            {/* <a href="theme/shop.html">Shop</a> */}
                             <Link to="/shop">Shop</Link>
                           </li>
                           <li>
-                            {/* <a href="theme/checkout.html">Checkout</a> */}
                             <Link to="/checkout">Checkout</Link>
                           </li>
                           <li>
-                            {/* <a href="theme/cart.html">Cart</a> */}
                             <Link to="/cart">Cart</Link>
                           </li>
                           <li>
-                            {/* <a href="theme/pricing.html">Pricing</a> */}
                             <Link to="/pricing">Pricing</Link>
                           </li>
                           <li>
-                            {/* <a href="theme/confirmation.html">Confirmation</a> */}
                             <Link to="confirmation">Confirmation</Link>
                           </li>
                         </ul>
@@ -336,64 +320,51 @@ function Header(props) {
                   </a>
                   <div className="dropdown-menu">
                     <div className="row">
-                      {/* Introduction */}
                       <div className="col-sm-3 col-xs-12">
                         <ul>
                           <li className="dropdown-header">Introduction</li>
                           <li role="separator" className="divider" />
                           <li>
-                            {/* <a href="theme/contact.html">Contact Us</a> */}
                             <Link to="/contact">Contact Us</Link>
                           </li>
                           <li>
-                            {/* <a href="theme/about.html">About Us</a> */}
                             <Link to="/about">About us</Link>
                           </li>
                           <li>
-                            {/* <a href="theme/404.html">404 Page</a> */}
                             <Link to="/404">404 Page</Link>
                           </li>
                           <li>
-                            {/* <a href="theme/faq.html">FAQ</a> */}
                             <Link to="/FAQ">FAQ</Link>
                           </li>
                         </ul>
                       </div>
-                      {/* Contact */}
                       <div className="col-sm-3 col-xs-12">
                         <ul>
                           <li className="dropdown-header">Dashboard</li>
                           <li role="separator" className="divider" />
                           <li>
-                            {/* <a href="theme/dashboard.html">User Interface</a> */}
                             <Link to="/dashboard">User Interface</Link>
                           </li>
                           <li>
-                            {/* <a href="theme/order.html">Orders</a> */}
                             <Link to="/order">Orders</Link>
                           </li>
                           <li>
-                            {/* <a href="theme/address.html">Address</a> */}
                             <Link to="/address">Address</Link>
                           </li>
                           <li>
-                            {/* <a href="theme/profile-details.html">Profile Details</a> */}
                             <Link to="/profile">Profile Details</Link>
                           </li>
                         </ul>
                       </div>
-                      {/* Utility */}
                       <div className="col-sm-3 col-xs-12">
                         <ul>
                           <li className="dropdown-header">Utility</li>
                           <li role="separator" className="divider" />
                           <li>
-                            {/* <a href="theme/login.html">Login Page</a> */}
                             <Link to="/login">Login</Link>
                           </li>
                         </ul>
                       </div>
-                      {/* Mega Menu */}
                       <div className="col-sm-3 col-xs-12">
                         <a href="theme/shop.html">
                           <img
@@ -404,22 +375,10 @@ function Header(props) {
                         </a>
                       </div>
                     </div>
-                    {/* / .row */}
                   </div>
-                  {/* / .dropdown-menu */}
                 </li>
-                {/* / Pages */}
-                {/* Blog */}
                 <li className="dropdown dropdown-slide">
-                  {/* <a href="theme/blog-right-sidebar.html">Blog </a> */}
                   <Link to="/blog">Blog</Link>
-                  {/* <ul class="dropdown-menu">
-								<li><a href="theme/blog-left-sidebar.html">Blog Left Sidebar</a></li>
-								<li><a href="theme/blog-right-sidebar.html">Blog Right Sidebar</a></li>
-								<li><a href="theme/blog-full-width.html">Blog Full Width</a></li>
-								<li><a href="theme/blog-grid.html">Blog 2 Columns</a></li>
-								<li><a href="theme/blog-single.html">Blog Single</a></li>
-							</ul> */}
                 </li>
 
                 <li className="dropdown dropdown-slide">
@@ -462,14 +421,16 @@ function Header(props) {
         <DialogTitle id="alert-dialog-title" fontSize={22}>
           {"Are you sure want to logout?"}
         </DialogTitle>
-        <DialogActions> 
-          <Button style={{ fontSize: "14px" }}  onClick={handleClose}>cancel</Button>
+        <DialogActions>
+          <Button style={{ fontSize: "14px" }} onClick={handleClose}>
+            cancel
+          </Button>
           <Button style={{ fontSize: "14px" }} onClick={handleLogout} autoFocus>
             confirm
           </Button>
         </DialogActions>
       </Dialog>
-              <Notification/>
+      <Notification />
     </header>
   );
 }

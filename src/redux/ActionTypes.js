@@ -9,4 +9,9 @@ export const RESET_PASSWORD_USER = "RESET_PASSWORD_USER"
 export const SET_ALERT = "SET_ALERT"
 export const RESET_ALERT = "RESET_ALERT"
 
+export const ADD_PRODUCT = "ADD_PRODUCT"
+export const READ_PRODUCTS = "READ_PRODUCTS"
+export const DELETE_PRODUCTS = "DELETE_PRODUCTS"
+export const EDIT_PRODUCTS = "EDIT_PRODUCTS"
+
 

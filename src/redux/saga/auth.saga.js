@@ -6,7 +6,6 @@ import {
   newUser,
   passwordResetEmailUser,
 } from "../../APIs/userAPI.saga";
-import { setAlert } from "../action/alert.action";
 import { loggedinAction, loggedoutAction } from "../action/auth.action";
 import * as ActionType from "../ActionTypes";
 
@@ -18,7 +17,7 @@ function* signUpSaga(action) {
       payload: { msg: user.payload, color: "success" },
     });
   } catch (e) {
-   yield put({
+    yield put({
       type: ActionType.SET_ALERT,
       payload: { msg: e, color: "error" },
     });
@@ -33,7 +32,7 @@ function* logInSaga(action) {
       payload: { msg: user.payload, color: "success" },
     });
   } catch (e) {
-   yield put({
+    yield put({
       type: ActionType.SET_ALERT,
       payload: { msg: e, color: "error" },
     });
@@ -49,7 +48,7 @@ function* logOutSaga() {
       payload: { msg: user.payload, color: "success" },
     });
   } catch (e) {
-   yield put({
+    yield put({
       type: ActionType.SET_ALERT,
       payload: { msg: e, color: "error" },
     });
@@ -65,7 +64,7 @@ function* GoogleSignupSaga() {
       payload: { msg: user.payload, color: "success" },
     });
   } catch (e) {
-   yield put({
+    yield put({
       type: ActionType.SET_ALERT,
       payload: { msg: e, color: "error" },
     });
@@ -80,7 +79,7 @@ function* resetPasswordSaga(action) {
       payload: { msg: user.payload, color: "success" },
     });
   } catch (e) {
-   yield put({
+    yield put({
       type: ActionType.SET_ALERT,
       payload: { msg: e, color: "error" },
     });

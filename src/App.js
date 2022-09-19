@@ -35,6 +35,7 @@ import store, { persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 
 import { SnackbarProvider } from "notistack";
+import Admin from "./container/Admin";
 
 function App() {
   return (
@@ -69,7 +70,7 @@ function App() {
             <PrivateRoute path="/order" exact component={Order} />
             <PrivateRoute path="/address" exact component={Address} />
             <PrivateRoute path="/profile" exact component={Profile} />
-
+            <PublicRoute path="/admin" exact component={Admin} />
             <PublicRoute
               path="/login"
               restricted={true}
