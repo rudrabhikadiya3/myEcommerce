@@ -31,7 +31,6 @@ function Header(props) {
 
 
   const auth = useSelector((state) => state.auth);
-  console.log(auth);
 
   return (
     <header>

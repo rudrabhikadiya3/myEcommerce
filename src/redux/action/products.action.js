@@ -6,8 +6,15 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  getStorage,
 } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db, storage } from "../../firebase";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 
 export const readProductsAction = () => async (dispatch) => {
   try {
@@ -21,30 +28,52 @@ export const readProductsAction = () => async (dispatch) => {
     console.log(error);
   }
 };
+
 export const addProductsAction = (val) => async (dispatch) => {
   try {
-    const docRef = await addDoc(collection(db, "products"), val);
-    dispatch({
-      type: ActionType.ADD_PRODUCT,
-      payload: { id: docRef.id, ...val },
+    const randomNum = Math.floor(Math.random() * 100000).toString();
+    const imgRef = ref(storage, `products/${randomNum}`);
+
+    uploadBytes(imgRef, val.img).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then(async (url) => {
+        const docRef = await addDoc(
+          collection(db, "products"),
+
+          {
+            ...val,
+            img: url,
+            fileName: randomNum,
+          }
+        );
+        dispatch({
+          type: ActionType.ADD_PRODUCT,
+          payload: { id: docRef.id, ...val, img: url, fileName: randomNum, },
+        });
+      });
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const deleteProductAction = (id) => async (dispatch) => {
+export const deleteProductAction = (val) => async (dispatch) => {
   try {
-    console.log(id);
-    await deleteDoc(doc(db, "products", id));
-    dispatch({ type: ActionType.DELETE_PRODUCTS, payload: id });
+    const imgRef = ref(storage, `products/${val.fileName}`);
+
+    deleteObject(imgRef)
+      .then(async () => {
+        await deleteDoc(doc(db, "products", val.id));
+        dispatch({ type: ActionType.DELETE_PRODUCTS, payload: val.id });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   } catch (error) {
     console.log(error);
   }
 };
 
 export const editProductAction = (val) => async (dispatch) => {
-  console.log(val);
   try {
     const productRef = doc(db, "products", val.id);
 

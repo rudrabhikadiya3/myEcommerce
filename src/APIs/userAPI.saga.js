@@ -11,7 +11,6 @@ import {
 import { auth } from "../firebase";
 
 export const newUser = (val) => {
-  console.log(val);
   return new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, val.email, val.spassword)
       .then((userCredential) => {

@@ -7,7 +7,6 @@ function Notification(props) {
   const { enqueueSnackbar } = useSnackbar();
   const msgData = useSelector((state) => state.alert);
     const dispatch = useDispatch();
-  console.log(msgData);
 
   useEffect(() => {
     if (msgData.msg !== "") {

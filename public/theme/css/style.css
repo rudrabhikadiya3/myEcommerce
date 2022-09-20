@@ -2556,7 +2556,12 @@ a:hover {
 .css-1e2bxag-MuiDataGrid-root,
 .css-qfso29-MuiTypography-root-MuiDialogContentText-root,
 .css-1e6y48t-MuiButtonBase-root-MuiButton-root,
-.css-sghohy-MuiButtonBase-root-MuiButton-root {
+.css-sghohy-MuiButtonBase-root-MuiButton-root,
+.css-fu5mbe-MuiTypography-root-MuiDialogContentText-root,
+.css-bdhsul-MuiTypography-root-MuiDialogTitle-root,
+.css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root,
+.css-1ey2kfy-MuiTypography-root-MuiDialogContentText-root,
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root {
   font-size: unset !important;
 }
 .admin-table {

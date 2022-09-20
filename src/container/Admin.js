@@ -31,7 +31,6 @@ export default function Admin() {
   const [dopen, setDOpen] = useState(false);
   const [alert, setAlert] = useState(0);
   const [edit, setEdit] = useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
     setEdit(false);
@@ -40,7 +39,7 @@ export default function Admin() {
   const handleClose = () => {
     setOpen(false);
     setDOpen(false);
-    formik.resetForm()
+    formik.resetForm();
   };
   const handleDClickOpen = () => {
     setDOpen(true);
@@ -68,6 +67,7 @@ export default function Admin() {
       .integer("please enter valid stock"),
     kwords: yup.string().required("Please enter keywords"),
     catagory: yup.string().required("Please select catagory"),
+    img: yup.mixed().required("Please upload files"),
   });
 
   const formik = useFormik({
@@ -78,7 +78,8 @@ export default function Admin() {
       mrp: "",
       stock: "",
       kwords: "",
-      catagory: ""
+      catagory: "",
+      img: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -91,11 +92,17 @@ export default function Admin() {
       }
     },
   });
-  const { handleBlur, handleChange, handleSubmit, errors, touched, values } =
-    formik;
+  const {
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    errors,
+    touched,
+    values,
+    setFieldValue,
+  } = formik;
 
   const columns = [
-    
     { field: "pname", headerName: "Product name", width: 150 },
     { field: "brand", headerName: "Brand name", width: 120 },
     { field: "catagory", headerName: "Catagoty", width: 130 },
@@ -108,7 +115,11 @@ export default function Admin() {
     { field: "mrp", headerName: "MRP", type: "number", width: 80 },
     { field: "stock", headerName: "stock", type: "number", width: 70 },
     { field: "kwords", headerName: "keywords", width: 100 },
-    { field: "catagory", headerName: "Catagoty", width: 100 },
+    {
+      field: "img",
+      headerName: "Image",
+      renderCell: (params) => (<img src={params.row.img} height={50}  width={50}/>),
+    },
     {
       field: "manage",
       headerName: "Manage",
@@ -119,14 +130,14 @@ export default function Admin() {
             aria-label="delet"
             onClick={() => {
               handleDClickOpen();
-              setAlert(params.id);
+              setAlert(params.row);
             }}
           >
             <DeleteIcon fontSize="large" />
           </IconButton>
 
           <IconButton aria-label="edit" onClick={() => editFormOpen(params)}>
-            <EditIcon fontSize="large"/>
+            <EditIcon fontSize="large" />
           </IconButton>
         </>
       ),
@@ -139,20 +150,18 @@ export default function Admin() {
   };
   const editFormOpen = (params) => {
     setOpen(true);
-   formik.setValues(params.row);
+    formik.setValues(params.row);
     setEdit(true);
   };
-
 
   useEffect(() => {
     dispatch(readProductsAction());
   }, []);
 
   const product = useSelector((state) => state.products);
-  console.log(product);
   return (
     <div className="admin-table">
-      <Button variant="contained" onClick={handleClickOpen} >
+      <Button variant="contained" onClick={handleClickOpen}>
         Add Product
       </Button>
 
@@ -294,8 +303,20 @@ export default function Admin() {
               {touched.kwords && errors.kwords ? (
                 <span className="form-error">{errors.kwords}</span>
               ) : null}
+              <TextField
+                margin="dense"
+                name="img"
+                // label="Product Image"
+                type="file"
+                fullWidth
+                variant="standard"
+                onChange={(e) => setFieldValue("img", e.target.files[0])}
+              />
+              {touched.img && errors.img ? (
+                <span className="form-error">{errors.img}</span>
+              ) : null}
               <DialogContentText fontSize={11}>
-                Please enter keyword that customer find easily your product{" "}
+                Please enter keyword that customer find easily your product
                 <br />
                 1. Do not use coma(,) in keyword, Just keep writing. <br />
                 2. Enter only product related keywords <br />
