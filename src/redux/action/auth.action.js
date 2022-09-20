@@ -4,8 +4,8 @@ import * as ActionType from '../ActionTypes'
 export const signupAction = (values) => (dispatch) =>{
     dispatch({type: ActionType.SIGNUP_USER, payload: values})
 }
-export const loggedinAction = () => (dispatch) =>{
-    dispatch({type: ActionType.LOGGEDIN_USER})
+export const loggedinAction = (user) => (dispatch) =>{
+    dispatch({type: ActionType.LOGGEDIN_USER, payload: user})
 }
 export const logoutAction = () => (dispatch) =>{
     dispatch({type: ActionType.LOGOUT_USER})

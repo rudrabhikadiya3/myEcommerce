@@ -27,8 +27,8 @@ import UserLogin from "./container/UserLogin";
 import Blog from "./container/Blog";
 import { Switch } from "react-router-dom";
 import { Route } from "react-router-dom";
-import PublicRoute from "./container/routes/PublicRoute";
-import PrivateRoute from "./container/routes/PrivateRoute";
+import PublicRoute from "./routes/PublicRoute";
+import PrivateRoute from "./routes/PrivateRoute";
 import { Provider } from "react-redux";
 
 import store, { persistor } from "./redux/store";

@@ -31,7 +31,6 @@ function Header(props) {
 
 
   const auth = useSelector((state) => state.auth);
-
   return (
     <header>
       <section className="top-header">

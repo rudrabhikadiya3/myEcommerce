@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { all, call, put, takeEvery,  } from "redux-saga/effects";
 import {
   GoogleSignupUser,
   loginUser,
@@ -26,15 +26,15 @@ function* signUpSaga(action) {
 function* logInSaga(action) {
   try {
     const user = yield call(loginUser, action.payload);
-    yield put(loggedinAction(user));
+    yield put(loggedinAction(user.payload.user));
     yield put({
       type: ActionType.SET_ALERT,
-      payload: { msg: user.payload, color: "success" },
+      payload: { msg: user.payload.msg, color: "success" },
     });
   } catch (e) {
     yield put({
       type: ActionType.SET_ALERT,
-      payload: { msg: e, color: "error" },
+      payload: { msg: e.payload, color: "error" },
     });
   }
 }

@@ -15,7 +15,6 @@ export const newUser = (val) => {
     createUserWithEmailAndPassword(auth, val.email, val.spassword)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
         onAuthStateChanged(auth, (user) => {
           if (user) {
             sendEmailVerification(auth.currentUser).then(() => {
@@ -37,14 +36,14 @@ export const loginUser = (val) => {
       .then((userCredential) => {
         const user = userCredential.user;
         if (user.emailVerified) {
-          resolve({ payload: "Login succesfully" });
+          resolve({payload: {msg:"Login succesfully", user}});
         } else {
           reject({ payload: "Please verify your email" });
         }
       })
       .catch((error) => {
         const errorCode = error.code;
-        reject(errorCode);
+        reject({ payload: errorCode });
       });
   });
 };
@@ -71,7 +70,7 @@ export const GoogleSignupUser = () => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
-        resolve({ payload: "You are successfully with Google" });
+        resolve({ payload: "You are successfully login with Google" });
       })
       .catch((error) => {
         const errorCode = error.code;
