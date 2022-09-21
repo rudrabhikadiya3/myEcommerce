@@ -1,75 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { readProductsAction } from "../redux/action/products.action";
 
 function Shop(props) {
+  const dispatch = useDispatch();
+  const productData = useSelector((state) => state.products.products);
+  const [search, setSearch] = useState(productData);
+  
+  const handleSearch = (val) => {
+    let searchData = productData.filter((p) =>
+    p.kwords.toLowerCase().includes(val.toLowerCase())
+    );
+    setSearch(searchData);
+  };
 
-    const productData = [
-        {
-            name: 'reef Boardsport',
-            price: 150,
-            imgSrc: 'source/images/shop/products/product-1.jpg'
-        },
-        {
-            name: 'Rainbow Shoes',
-            price: 99,
-            imgSrc: 'source/images/shop/products/product-2.jpg'
-        },
-        {
-            name: 'Stryhorn SP',
-            price: 120,
-            imgSrc: 'source/images/shop/products/product-3.jpg'
-        },
-        {
-            name: 'bradley mid',
-            price: 100,
-            imgSrc: 'source/images/shop/products/product-4.jpg'
-        },
-        {
-            name: 'Rainbow Shoes',
-            price: 120,
-            imgSrc: 'source/images/shop/products/product-5.jpg'
-        },
-        {
-            name: 'Men Shirt',
-            price: 220,
-            imgSrc: 'source/images/shop/products/product-6.jpg'
-        },
-        {
-            name: 'Women Shirt',
-            price: 450,
-            imgSrc: 'source/images/shop/products/product-7.jpg'
-        },
-        {
-            name: 'Women Saree',
-            price: 200,
-            imgSrc: 'source/images/shop/products/product-8.jpg'
-            
-        },
-        {
-            name: 'Purse',
-            price: 50,
-            imgSrc: 'source/images/shop/products/product-9.jpg'
-        },
-        {
-            name: 'wallet',
-            price: 60,
-            imgSrc: 'source/images/shop/products/product-10.jpg'
-        },
-        {
-            name: 'Women Galsses',
-            price: 30,
-            imgSrc: 'source/images/shop/products/product-11.jpg'
-        },
-    ]
-    const [data, setData] = useState(productData)
+  useEffect(() => {
+    dispatch(readProductsAction());
+  }, []);
 
-
-    const handleSearch = (val) => {
-        let searchData = productData.filter((d)=>(
-            d.name.toLowerCase().includes(val.toLowerCase()) ||
-            d.price.toString().includes(val)
-        ))
-        setData(searchData);
-    }
+  const renderData = search.length > 0 ? search : productData;
+  console.log(search);
   return (
     <>
       <section className="page-header">
@@ -92,52 +42,63 @@ function Shop(props) {
       <section className="products section">
         <div className="container">
           <div className="row">
-         <input type="search" className="form-control mb-5" placeholder="Search..." onChange={(e)=>{handleSearch(e.target.value)}}/>
+            <input
+              type="search"
+              className="form-control mb-5"
+              placeholder="Search..."
+              onChange={(e) => {
+                handleSearch(e.target.value);
+              }}
+            />
+            {productData.length === 0 ? <p>Loading...</p> : null}
+            {/* {search.length = 0 ? <p>No result ...</p> : null} */}
+
             {
-                data.map((d,i)=>{
-                    return(
-                        <div className="col-md-3" key={i}>
-                        <div className="product-item">
-                          <div className="product-thumb">
-                            <img
-                              className="img-responsive"
-                              src={d.imgSrc}
-                              alt="product-img"
-                            />
-                            <div className="preview-meta">
-                              <ul>
-                                <li>
-                                  <span data-toggle="modal" data-target="#product-modal">
-                                    <i className="tf-ion-ios-search-strong" />
-                                  </span>
-                                </li>
-                                <li>
-                                  <a href="#!">
-                                    <i className="tf-ion-ios-heart" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#!">
-                                    <i className="tf-ion-android-cart" />
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="product-content">
-                            <h4>
-                              <a href="product-single.html">{d.name}</a>
-                            </h4>
-                            <p className="price">${d.price}</p>
-                          </div>
-                        </div>
-                      </div>  
-                    )
-                })
-            }
-            {
-                data.length === 0 ? <p>No Match found</p> :null
-            }
+            renderData.map((p, i) => {
+              return (
+                <div className="col-md-3" key={i}>
+                  <div className="product-item">
+                    <div className="product-thumb">
+                      <img
+                        className="img-responsive"
+                        src={p.img}
+                        alt="product-img"
+                      />
+                      <div className="preview-meta">
+                        <ul>
+                          <li>
+                            <span
+                              data-toggle="modal"
+                              data-target="#product-modal"
+                            >
+                              <i className="tf-ion-ios-search-strong" />
+                            </span>
+                          </li>
+                          <li>
+                            <a href="#!">
+                              <i className="tf-ion-ios-heart" />
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#!">
+                              <i className="tf-ion-android-cart" />
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="product-content">
+                      <h4>
+                        <a href="product-single.html">{p.pname}</a>
+                      </h4>
+                      <p className="price">₹{p.sprice}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+
             {/* Modal */}
             <div className="modal product-modal fade" id="product-modal">
               <button
@@ -188,7 +149,6 @@ function Shop(props) {
                 </div>
               </div>
             </div>
-            {/* /.modal */}
           </div>
         </div>
       </section>
