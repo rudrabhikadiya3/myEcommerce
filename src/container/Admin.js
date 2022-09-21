@@ -178,7 +178,7 @@ export default function Admin() {
         </Button>
         <div className="form-floating mx-5">
           <select onChange={(e)=>setCatagory(e.target.value)}>
-            <option  defaultValue value="all"> Filter by catagoty</option>
+            <option  defaultValue value="all"> Filter by catagoty (All)</option>
             <option value="Tshirt" >Tshirt</option>
             <option value="shirt">shirt</option>
             <option value="jacket">jacket</option>
