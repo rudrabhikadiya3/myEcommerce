@@ -29,7 +29,6 @@ function Header(props) {
     handleClose();
   };
 
-
   const auth = useSelector((state) => state.auth);
   return (
     <header>
@@ -215,7 +214,9 @@ function Header(props) {
                 <Link
                     to="/admin"
                     className="btn btn-main btn-small ms-5 login-btn"
-                  >admin panel</Link>
+                  >
+                    admin panel
+                  </Link>
               </ul>
             </div>
           </div>

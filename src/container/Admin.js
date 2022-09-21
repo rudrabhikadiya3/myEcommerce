@@ -31,6 +31,7 @@ export default function Admin() {
   const [dopen, setDOpen] = useState(false);
   const [alert, setAlert] = useState(0);
   const [edit, setEdit] = useState(false);
+  const [catagory, setCatagory] = useState('all');
   const handleClickOpen = () => {
     setOpen(true);
     setEdit(false);
@@ -60,14 +61,11 @@ export default function Admin() {
       .required("Please enter selling price")
       .positive("value can't in negative")
       .integer("please enter valid selling price"),
-    stock: yup
-      .number("please enter valid stock")
-      .required("Please enter stock")
-      .positive("stock can't in negative")
-      .integer("please enter valid stock"),
     kwords: yup.string().required("Please enter keywords"),
     catagory: yup.string().required("Please select catagory"),
-    img: yup.mixed().required("Please upload files"),
+    img: yup.mixed().required("Please select files"),
+    gender: yup.string().required("Please select gender"),
+    color: yup.string().required("Please enter color name"),
   });
 
   const formik = useFormik({
@@ -76,10 +74,11 @@ export default function Admin() {
       brand: "",
       sprice: "",
       mrp: "",
-      stock: "",
       kwords: "",
       catagory: "",
       img: "",
+      gender: "",
+      color:"",
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -106,19 +105,21 @@ export default function Admin() {
     { field: "pname", headerName: "Product name", width: 150 },
     { field: "brand", headerName: "Brand name", width: 120 },
     { field: "catagory", headerName: "Catagoty", width: 130 },
+    { field: "color", headerName: "Color", width: 130 },
     {
       field: "sprice",
       headerName: "Selling price",
-      type: "number",
       width: 90,
     },
-    { field: "mrp", headerName: "MRP", type: "number", width: 80 },
-    { field: "stock", headerName: "stock", type: "number", width: 70 },
+    { field: "mrp", headerName: "MRP", width: 80 },
+    { field: "gender", headerName: "Ideal for", width: 70 },
     { field: "kwords", headerName: "keywords", width: 100 },
     {
       field: "img",
       headerName: "Image",
-      renderCell: (params) => (<img src={params.row.img} height={50}  width={50}/>),
+      renderCell: (params) => (
+        <img src={params.row.img} height={50} width={50} />
+      ),
     },
     {
       field: "manage",
@@ -153,22 +154,49 @@ export default function Admin() {
     formik.setValues(params.row);
     setEdit(true);
   };
+ 
+  const product = useSelector((state) => state.products);
+
+  let filteredProducts = product.products.filter((p,i) => {
+    if (catagory !== "all") {
+      return p.catagory === catagory;
+    } else{
+      return p
+    }
+  })
+  
+  console.log(filteredProducts);
 
   useEffect(() => {
     dispatch(readProductsAction());
   }, []);
-
-  const product = useSelector((state) => state.products);
   return (
     <div className="admin-table">
-      <Button variant="contained" onClick={handleClickOpen}>
-        Add Product
-      </Button>
-
+      <div className="d-flex">
+        <Button variant="contained" onClick={handleClickOpen}>
+          Add Product
+        </Button>
+        <div className="form-floating mx-5">
+          <select onChange={(e)=>setCatagory(e.target.value)}>
+            <option  defaultValue value="all"> Filter by catagoty</option>
+            <option value="Tshirt" >Tshirt</option>
+            <option value="shirt">shirt</option>
+            <option value="jacket">jacket</option>
+            <option value="kurta">kurta</option>
+            <option value="jeans">jeans</option>
+            <option value="trouser">trouser</option>
+            <option value="kurta">kurta</option>
+            <option value="Accesories">Accesories</option>
+          </select>
+        </div>
+        <div>
+      
+    </div>
+      </div>
       <div style={{ height: 1000, width: "100%" }}>
         <DataGrid
           Value="Center"
-          rows={product.products}
+          rows={filteredProducts}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10]}
@@ -222,12 +250,10 @@ export default function Admin() {
               ) : null}
 
               <FormControl variant="standard" fullWidth margin="dense">
-                <InputLabel id="demo-simple-select-standard-label">
+                <InputLabel>
                   Catagory
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
                   onChange={handleChange}
                   label="Catagory"
                   fullWidth
@@ -240,12 +266,25 @@ export default function Admin() {
                   <MenuItem value={"kurta"}>kurta</MenuItem>
                   <MenuItem value={"jeans"}>jeans</MenuItem>
                   <MenuItem value={"trouser"}>trouser</MenuItem>
-                  <MenuItem value={"kurta"}>kurta</MenuItem>
                   <MenuItem value={"Accesories"}>Accesories</MenuItem>
                 </Select>
               </FormControl>
               {touched.catagory && errors.catagory ? (
                 <span className="form-error">{errors.catagory}</span>
+              ) : null}
+              <TextField
+                margin="dense"
+                name="color"
+                label="color name"
+                type="text"
+                fullWidth
+                variant="standard"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.color}
+              />
+              {touched.color && errors.color ? (
+                <span className="form-error">{errors.color}</span>
               ) : null}
               <TextField
                 margin="dense"
@@ -265,7 +304,7 @@ export default function Admin() {
                 margin="dense"
                 name="sprice"
                 label="Selling Price"
-                type="etxt"
+                type="text"
                 fullWidth
                 variant="standard"
                 onChange={handleChange}
@@ -275,20 +314,25 @@ export default function Admin() {
               {touched.sprice && errors.sprice ? (
                 <span className="form-error">{errors.sprice}</span>
               ) : null}
-              <TextField
-                margin="dense"
-                name="stock"
-                label="Stoke"
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.stock}
-              />
-              {touched.stock && errors.stock ? (
-                <span className="form-error">{errors.stock}</span>
+              <FormControl variant="standard" fullWidth margin="dense">
+                <InputLabel >
+                  Ideal for...
+                </InputLabel>
+                <Select
+                  onChange={handleChange}
+                  label="gender"
+                  fullWidth
+                  name="gender"
+                  value={values.gender}
+                >
+                  <MenuItem value={"male"}>Male</MenuItem>
+                  <MenuItem value={"female"}>Female</MenuItem>
+                </Select>
+              </FormControl>
+              {touched.gender && errors.gender ? (
+                <span className="form-error">{errors.gender}</span>
               ) : null}
+
               <TextField
                 margin="dense"
                 name="kwords"
@@ -306,7 +350,6 @@ export default function Admin() {
               <TextField
                 margin="dense"
                 name="img"
-                // label="Product Image"
                 type="file"
                 fullWidth
                 variant="standard"

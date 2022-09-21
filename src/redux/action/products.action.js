@@ -6,7 +6,6 @@ import {
   deleteDoc,
   doc,
   updateDoc,
-  getStorage,
 } from "firebase/firestore";
 import { db, storage } from "../../firebase";
 import {
@@ -30,6 +29,7 @@ export const readProductsAction = () => async (dispatch) => {
 };
 
 export const addProductsAction = (val) => async (dispatch) => {
+  console.log(val);
   try {
     const randomNum = Math.floor(Math.random() * 100000).toString();
     const imgRef = ref(storage, `products/${randomNum}`);
@@ -74,6 +74,7 @@ export const deleteProductAction = (val) => async (dispatch) => {
 };
 
 export const editProductAction = (val) => async (dispatch) => {
+  console.log(val);
   try {
     const productRef = doc(db, "products", val.id);
 
@@ -82,9 +83,10 @@ export const editProductAction = (val) => async (dispatch) => {
       catagory: val.catagory,
       kwords: val.kwords,
       pname: val.pname,
-      stock: val.stock,
       mrp: val.mrp,
       brand: val.brand,
+      color: val.color,
+      gender: val.gender,
     });
     dispatch({ type: ActionType.EDIT_PRODUCTS, payload: val });
   } catch (error) {

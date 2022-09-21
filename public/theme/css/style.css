@@ -2567,3 +2567,6 @@ a:hover {
 .admin-table {
   margin: 0 200px;
 }
+.d-flex{
+  display: flex !important;
+}
