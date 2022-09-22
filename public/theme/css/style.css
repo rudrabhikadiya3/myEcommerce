@@ -2570,3 +2570,17 @@ a:hover {
 .d-flex{
   display: flex !important;
 }
+.flex-wrap{
+  flex-wrap: wrap;
+}
+.css-18lrjg1-MuiCircularProgress-root{
+  color: #000 !important;
+  display: block !important;
+}
+.col-3{
+  width: 25%;
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}

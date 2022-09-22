@@ -1,3 +1,4 @@
+import { CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { readProductsAction } from "../redux/action/products.action";
@@ -50,13 +51,14 @@ function Shop(props) {
                 handleSearch(e.target.value);
               }}
             />
-            {productData.length === 0 ? <p>Loading...</p> : null}
-            {/* {search.length = 0 ? <p>No result ...</p> : null} */}
+            {productData.length === 0 ? <CircularProgress className="d-block mx-auto"/> : null}
+            {search.length = 0 ? <p> No result ...</p> : null}
 
+            <div className="d-flex flex-wrap">
             {
             renderData.map((p, i) => {
               return (
-                <div className="col-md-3" key={i}>
+                <div className="col-3" key={i}>
                   <div className="product-item">
                     <div className="product-thumb">
                       <img
@@ -97,6 +99,7 @@ function Shop(props) {
                 </div>
               );
             })}
+            </div>
 
 
             {/* Modal */}
