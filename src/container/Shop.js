@@ -91,7 +91,7 @@ function Shop(props) {
                     </div>
                     <div className="product-content">
                       <h4>
-                        <a href="product-single.html">{p.pname}</a>
+                        <a href="product_single">{p.pname}</a>
                       </h4>
                       <p className="price">₹{p.sprice}</p>
                     </div>

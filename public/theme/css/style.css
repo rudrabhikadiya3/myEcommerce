@@ -2584,3 +2584,58 @@ a:hover {
   padding-right: 15px;
   padding-left: 15px;
 }
+.col-4{
+  width: 25%;
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.col-5{
+  width: 50%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.col-7{
+  width: 66.66%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.img-box{
+  width: 100%;
+}
+.img-box img{
+  max-width: 100%;
+  min-height: 100%;
+  display: block;
+  margin: 0 auto;
+}
+.mrp{
+  text-decoration: line-through;
+  margin-left: 8px;
+}
+.single_brnad_name{
+  margin-bottom: 0;
+}
+.single_title{
+  margin-top: 0;
+  margin-bottom: 32px;
+}
+.count-btn{
+  padding: 9px 13px;
+  display: inline-block;
+}
+.product-quantity-slider{
+  width: 50px !important;
+}
+.product-quantity-slider span{
+  width: 100%;
+  background-color: #dedede;
+  border: 1px solid #000;
+  border-left: none;
+  border-right: none;
+  display: inline-block;
+  padding: 5.5px 13px;
+  text-align: center;
+}

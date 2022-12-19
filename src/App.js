@@ -58,12 +58,12 @@ function App() {
               exact
               component={ProductSingle}
             />
-            <PublicRoute path="/ShopSide" exact component={ShopSide} />
+            <PublicRoute path="/shopside" exact component={ShopSide} />
 
             {/* pages */}
             <PublicRoute path="/contact" exact component={Contact} />
             <PublicRoute path="/about" exact component={About} />
-            <PublicRoute path="/404" exact component={FourzFour} />
+            {/* <PublicRoute path="/404" exact component={FourzFour} /> */}
             <PublicRoute path="/FAQ" exact component={FAQ} />
             {/* -------- */}
             <PrivateRoute path="/dashboard" exact component={Dashboard} />
@@ -78,6 +78,7 @@ function App() {
               component={UserLogin}
             />
             <PublicRoute path="/blog" exact component={Blog} />
+            <PublicRoute path="/*" exact component={FourzFour} />
           </Switch>
           <Footer />
         </PersistGate>
